@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- MainWindow -->
+  <data name="Menu.File" xml:space="preserve"><value>File</value></data>
+  <data name="Menu.File.Open" xml:space="preserve"><value>Open...</value></data>
+  <data name="Menu.File.CloseTab" xml:space="preserve"><value>Close Tab</value></data>
+  <data name="Menu.File.Exit" xml:space="preserve"><value>Exit</value></data>
+  <data name="Menu.Help" xml:space="preserve"><value>Help</value></data>
+  <data name="Menu.Help.About" xml:space="preserve"><value>About</value></data>
+  <data name="Menu.Language" xml:space="preserve"><value>Language</value></data>
+  <data name="Menu.Language.English" xml:space="preserve"><value>English</value></data>
+  <data name="Menu.Language.Russian" xml:space="preserve"><value>Русский</value></data>
+  
+  <!-- About -->
+  <data name="About.Title" xml:space="preserve"><value>About NesExtractor</value></data>
+  <data name="About.AppName" xml:space="preserve"><value>NesExtractor</value></data>
+  <data name="About.Description" xml:space="preserve"><value>Utility for analyzing and extracting data from NES ROM files.</value></data>
+  <data name="About.Version" xml:space="preserve"><value>Version: {0}</value></data>
+  <data name="About.Close" xml:space="preserve"><value>Close</value></data>
+  <data name="Tabs.Close.Tooltip" xml:space="preserve"><value>Close (Ctrl+W)</value></data>
+  <data name="Empty.Welcome.Title" xml:space="preserve"><value>Welcome to NesExtractor</value></data>
+  <data name="Empty.Welcome.Subtitle" xml:space="preserve"><value>A utility to analyze and extract data from NES ROM files</value></data>
+  <data name="Empty.Features.1" xml:space="preserve"><value>✓ Supports iNES 1.0 and NES 2.0</value></data>
+  <data name="Empty.Features.2" xml:space="preserve"><value>✓ Extracts cartridge information</value></data>
+  <data name="Empty.Features.3" xml:space="preserve"><value>✓ Visualizes CHR ROM graphics</value></data>
+  <data name="Empty.Features.4" xml:space="preserve"><value>✓ Exports tiles to PNG</value></data>
+  <data name="Empty.OpenButton" xml:space="preserve"><value>🎮 Open NES file...</value></data>
+  <data name="Empty.OpenHint" xml:space="preserve"><value>Or use Ctrl+O</value></data>
+
+  <!-- FileTabView - left panel -->
+  <data name="File.Info.Title" xml:space="preserve"><value>📋 Cartridge info</value></data>
+  <data name="File.Label" xml:space="preserve"><value>File:</value></data>
+  <data name="File.Size" xml:space="preserve"><value>File size:</value></data>
+  <data name="File.Format" xml:space="preserve"><value>Format:</value></data>
+  <data name="Rom.Info.Title" xml:space="preserve"><value>ROM data</value></data>
+  <data name="PrgRom.Label" xml:space="preserve"><value>PRG ROM (program):</value></data>
+  <data name="ChrRom.Label" xml:space="preserve"><value>CHR ROM (graphics):</value></data>
+  <data name="Mapper.Info.Title" xml:space="preserve"><value>Mapper and configuration</value></data>
+  <data name="Mapper.Label" xml:space="preserve"><value>Mapper:</value></data>
+  <data name="Mirroring.Label" xml:space="preserve"><value>Mirroring:</value></data>
+  <data name="BatteryRam.Label" xml:space="preserve"><value>Battery-backed RAM:</value></data>
+  <data name="Trainer.Label" xml:space="preserve"><value>Trainer:</value></data>
+
+  <!-- FileTabView - right panel -->
+  <data name="Graphics.Title" xml:space="preserve"><value>🎨 Graphics (CHR ROM)</value></data>
+  <data name="Palette.Label" xml:space="preserve"><value>Palette:</value></data>
+  <data name="Palette.Tooltip" xml:space="preserve"><value>Select a color palette. Greyscale is a neutral option.</value></data>
+  <data name="Transparency.Label" xml:space="preserve"><value>Transparency</value></data>
+  <data name="Transparency.Tooltip" xml:space="preserve"><value>Show index 0 as transparent (checkerboard)</value></data>
+  <data name="Zoom.Out" xml:space="preserve"><value>Zoom out</value></data>
+  <data name="Zoom.In" xml:space="preserve"><value>Zoom in</value></data>
+  <data name="Zoom.Reset" xml:space="preserve"><value>Reset zoom</value></data>
+  <data name="Export.TileSheet" xml:space="preserve"><value>📥 Export tile sheet</value></data>
+  <data name="Export.TileSheet.Tooltip" xml:space="preserve"><value>Save all tiles into a single PNG file</value></data>
+  <data name="Export.Tiles" xml:space="preserve"><value>📂 Export to individual files</value></data>
+  <data name="Export.Tiles.Tooltip" xml:space="preserve"><value>Save each tile as a separate PNG file</value></data>
+
+  <!-- FileTabView - no CHR ROM -->
+  <data name="NoChr.Title" xml:space="preserve"><value>CHR ROM is missing</value></data>
+  <data name="NoChr.Subtitle" xml:space="preserve"><value>This cartridge uses CHR RAM</value></data>
+  <data name="NoChr.InfoTitle" xml:space="preserve"><value>ℹ️ What does it mean?</value></data>
+  <data name="NoChr.InfoBody1" xml:space="preserve"><value>Graphics are not stored in the ROM file but are uploaded by the game at runtime into the CHR RAM on the cartridge.</value></data>
+  <data name="NoChr.InfoBody2" xml:space="preserve"><value>Many games with mappers MMC1, MMC3, MMC5 and others use this approach (Duck Tales, Mega Man, Kirby's Adventure, etc.)</value></data>
+  <data name="NoChr.Hint" xml:space="preserve"><value>💡 To extract graphics from such games, you need emulation and intercept writes into CHR RAM.</value></data>
+
+  <!-- GraphicsViewModel -->
+  <data name="Graphics.TileCount" xml:space="preserve"><value>Total tiles: {0} ({1:F2} banks)</value></data>
+  <data name="Export.TileSheet.DialogTitle" xml:space="preserve"><value>Export tile sheet</value></data>
+  <data name="Export.TileSheet.FileType" xml:space="preserve"><value>PNG image</value></data>
+  <data name="Export.Tiles.DialogTitle" xml:space="preserve"><value>Select a folder to export tiles</value></data>
+  <data name="Error.Export" xml:space="preserve"><value>Error during export: {0}</value></data>
+  
+  <!-- MainWindowViewModel - Open File dialog -->
+  <data name="Dialog.OpenFile.Title" xml:space="preserve"><value>Select NES ROM file</value></data>
+  <data name="Dialog.OpenFile.Filter.Nes" xml:space="preserve"><value>NES ROM files</value></data>
+  <data name="Dialog.OpenFile.Filter.All" xml:space="preserve"><value>All files</value></data>
+  
+  <!-- MainWindowViewModel - Errors -->
+  <data name="Error.OpenFile" xml:space="preserve"><value>Error opening file: {0}</value></data>
+  <data name="Error.FileNotFound" xml:space="preserve"><value>File not found: {0}</value></data>
+  <data name="Error.InvalidFormat" xml:space="preserve"><value>Invalid file format: {0}</value></data>
+  <data name="Error.LoadFile" xml:space="preserve"><value>Error loading file: {0}</value></data>
+</root>
+

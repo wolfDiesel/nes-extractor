@@ -1,0 +1,110 @@
+name: Release Builds
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            rid: linux-x64
+            profile: Properties/PublishProfiles/Linux-x64.pubxml
+            artifact-name: NesExtractor-linux-x64
+          - os: windows-latest
+            rid: win-x64
+            profile: Properties/PublishProfiles/Windows-x64.pubxml
+            artifact-name: NesExtractor-win-x64
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore dependencies
+        run: dotnet restore NesExtractor.sln
+
+      - name: Build
+        run: dotnet build NesExtractor.sln -c Release --no-restore
+
+      - name: Publish
+        run: dotnet publish src/NesExtractor/NesExtractor.csproj -c Release -p:PublishProfile=${{ matrix.profile }} --no-build
+
+      - name: Archive Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cd src/NesExtractor/bin/Release/net8.0/publish/${{ matrix.rid }}
+          tar -czf ../../../../../../${{ matrix.artifact-name }}.tar.gz NesExtractor
+          cd ../../../../../../
+
+      - name: Archive Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd src/NesExtractor/bin/Release/net8.0/publish/${{ matrix.rid }}
+          Compress-Archive -Path * -DestinationPath ../../../../../../${{ matrix.artifact-name }}.zip -Force
+          cd ../../../../../../
+
+      - name: Upload Linux artifact
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: ${{ matrix.artifact-name }}.tar.gz
+          retention-days: 90
+
+      - name: Upload Windows artifact
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: ${{ matrix.artifact-name }}.zip
+          retention-days: 90
+
+  create-release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: NesExtractor-linux-x64
+          path: artifacts/
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: NesExtractor-win-x64
+          path: artifacts/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

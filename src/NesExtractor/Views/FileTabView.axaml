@@ -1,0 +1,285 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:NesExtractor.ViewModels"
+             xmlns:l="using:NesExtractor.Localization"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="700"
+             x:Class="NesExtractor.Views.FileTabView"
+             x:DataType="vm:FileTabViewModel"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch"
+             ClipToBounds="False">
+
+    <Grid ColumnDefinitions="3*,7*" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <!-- Левая панель - Информация о файле (30%) -->
+        <Border Grid.Column="0" 
+                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}" 
+                BorderThickness="0,0,1,0"
+                Padding="20"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <ScrollViewer HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch">
+                <StackPanel Spacing="20">
+                    <!-- Header -->
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{l:Loc File.Info.Title}" 
+                                   FontSize="18" 
+                                   FontWeight="SemiBold" />
+                        <Separator />
+                    </StackPanel>
+
+                    <!-- File info -->
+                    <StackPanel Spacing="12">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{l:Loc File.Label}" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Text="{Binding FileName}" 
+                                       FontSize="14" 
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{l:Loc File.Size}" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Text="{Binding FileSize}" 
+                                       FontSize="14" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{l:Loc File.Format}" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Text="{Binding Format}" 
+                                       FontSize="14" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- ROM info -->
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{l:Loc Rom.Info.Title}" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold" />
+                        <Separator />
+                    </StackPanel>
+
+                    <StackPanel Spacing="12">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{l:Loc PrgRom.Label}" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Text="{Binding PrgRomInfo}" 
+                                       FontSize="14" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{l:Loc ChrRom.Label}" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Text="{Binding ChrRomInfo}" 
+                                       FontSize="14" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Mapper info -->
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{l:Loc Mapper.Info.Title}" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold" />
+                        <Separator />
+                    </StackPanel>
+
+                    <StackPanel Spacing="12">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{l:Loc Mapper.Label}" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Text="{Binding MapperInfo}" 
+                                       FontSize="14" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{l:Loc Mirroring.Label}" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Text="{Binding Mirroring}" 
+                                       FontSize="14" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{l:Loc BatteryRam.Label}" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Text="{Binding BatteryRam}" 
+                                       FontSize="14" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{l:Loc Trainer.Label}" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Text="{Binding Trainer}" 
+                                       FontSize="14" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Путь к файлу внизу -->
+                    <StackPanel Spacing="8" Margin="0,20,0,0">
+                        <Separator />
+                        <TextBlock Text="{Binding FilePath}" 
+                                   FontSize="11" 
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Правая панель - Графика (70%) -->
+        <Grid Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+            <DockPanel LastChildFill="True" 
+                       IsVisible="{Binding HasChrRom}"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch">
+                <!-- Top controls -->
+                <Border DockPanel.Dock="Top" 
+                        BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}" 
+                        BorderThickness="0,0,0,1"
+                        Padding="16,12">
+                    <Grid ColumnDefinitions="*,Auto,Auto">
+                        <!-- Info -->
+                        <StackPanel Grid.Column="0" Spacing="4">
+                            <TextBlock Text="{l:Loc Graphics.Title}" 
+                                       FontSize="16" 
+                                       FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding Graphics.TileCountInfo}" 
+                                       FontSize="12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                        </StackPanel>
+
+                        <!-- Palette selection and transparency -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center" Margin="0,0,16,0">
+                            <TextBlock Text="{l:Loc Palette.Label}" 
+                                       VerticalAlignment="Center"
+                                       FontWeight="SemiBold" />
+                            <ComboBox ItemsSource="{Binding Graphics.PaletteNames}"
+                                      SelectedIndex="{Binding Graphics.SelectedPaletteIndex}"
+                                      MinWidth="160"
+                                      ToolTip.Tip="{l:Loc Palette.Tooltip}" />
+                            <CheckBox IsChecked="{Binding Graphics.UseTransparency}"
+                                      Content="{l:Loc Transparency.Label}"
+                                      ToolTip.Tip="{l:Loc Transparency.Tooltip}" />
+                        </StackPanel>
+
+                        <!-- Zoom buttons -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Graphics.Zoom, StringFormat={}{0:F1}x}" 
+                                       VerticalAlignment="Center"
+                                       FontWeight="SemiBold"
+                                       MinWidth="45"
+                                       TextAlignment="Right" />
+                            <Button Classes="zoom-button"
+                                    Content="−" 
+                                    Command="{Binding Graphics.ZoomOutCommand}"
+                                    ToolTip.Tip="{l:Loc Zoom.Out}" />
+                            <Button Classes="zoom-button"
+                                    Content="+" 
+                                    Command="{Binding Graphics.ZoomInCommand}"
+                                    ToolTip.Tip="{l:Loc Zoom.In}" />
+                            <Button Classes="zoom-button"
+                                    Content="100%" 
+                                    Command="{Binding Graphics.ResetZoomCommand}"
+                                    ToolTip.Tip="{l:Loc Zoom.Reset}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Bottom buttons -->
+                <Border DockPanel.Dock="Bottom" 
+                        BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}" 
+                        BorderThickness="0,1,0,0"
+                        Padding="16,12">
+                    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                        <Button Classes="export-button"
+                                Content="{l:Loc Export.TileSheet}" 
+                                Command="{Binding Graphics.ExportTileSheetCommand}"
+                                IsEnabled="{Binding !Graphics.IsProcessing}"
+                                ToolTip.Tip="{l:Loc Export.TileSheet.Tooltip}" />
+                        <Button Classes="export-button"
+                                Content="{l:Loc Export.Tiles}" 
+                                Command="{Binding Graphics.ExportIndividualTilesCommand}"
+                                IsEnabled="{Binding !Graphics.IsProcessing}"
+                                ToolTip.Tip="{l:Loc Export.Tiles.Tooltip}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- ScrollViewer с графикой -->
+                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Background="#FF202020">
+                    <Viewbox Stretch="None"
+                             Width="{Binding Graphics.TileSheetImage.PixelSize.Width}"
+                             Height="{Binding Graphics.TileSheetImage.PixelSize.Height}"
+                             Margin="20">
+                        <Viewbox.RenderTransform>
+                            <ScaleTransform ScaleX="{Binding Graphics.Zoom}" 
+                                            ScaleY="{Binding Graphics.Zoom}" />
+                        </Viewbox.RenderTransform>
+                        <Image Source="{Binding Graphics.TileSheetImage}"
+                               RenderOptions.BitmapInterpolationMode="None"
+                               IsVisible="{Binding Graphics.TileSheetImage, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                    </Viewbox>
+                </ScrollViewer>
+            </DockPanel>
+
+            <!-- Message when no CHR ROM -->
+            <Border IsVisible="{Binding !HasChrRom}">
+                <StackPanel Spacing="20" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="500">
+                    <PathIcon Data="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
+                              Width="64" Height="64"
+                              Foreground="{DynamicResource SystemAccentColorLight1}" />
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{l:Loc NoChr.Title}"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{l:Loc NoChr.Subtitle}"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                    
+                    <Border Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                            Padding="20,16"
+                            CornerRadius="8">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{l:Loc NoChr.InfoTitle}"
+                                       FontSize="15"
+                                       FontWeight="SemiBold" />
+                            <TextBlock TextWrapping="Wrap"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
+                                <Run Text="{l:Loc NoChr.InfoBody1}" />
+                                <LineBreak /><LineBreak />
+                                <Run Text="{l:Loc NoChr.InfoBody2}" />
+                            </TextBlock>
+                            <TextBlock Text="{l:Loc NoChr.Hint}"
+                                       FontSize="12"
+                                       FontStyle="Italic"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
+

@@ -17,6 +17,7 @@
   <data name="Menu.File" xml:space="preserve"><value>File</value></data>
   <data name="Menu.File.Open" xml:space="preserve"><value>Open...</value></data>
   <data name="Menu.File.CloseTab" xml:space="preserve"><value>Close Tab</value></data>
+  <data name="Menu.File.BatchExport" xml:space="preserve"><value>Batch Export...</value></data>
   <data name="Menu.File.Exit" xml:space="preserve"><value>Exit</value></data>
   <data name="Menu.Help" xml:space="preserve"><value>Help</value></data>
   <data name="Menu.Help.About" xml:space="preserve"><value>About</value></data>
@@ -81,7 +82,12 @@
   <data name="Export.TileSheet.DialogTitle" xml:space="preserve"><value>Export tile sheet</value></data>
   <data name="Export.TileSheet.FileType" xml:space="preserve"><value>PNG image</value></data>
   <data name="Export.Tiles.DialogTitle" xml:space="preserve"><value>Select a folder to export tiles</value></data>
+  <data name="Export.Batch.DialogTitle" xml:space="preserve"><value>Select a folder for batch export</value></data>
+  <data name="Export.Batch.Processing" xml:space="preserve"><value>Processing {0} of {1}...</value></data>
+  <data name="Export.Batch.Success" xml:space="preserve"><value>Batch export completed successfully</value></data>
   <data name="Error.Export" xml:space="preserve"><value>Error during export: {0}</value></data>
+  <data name="Error.BatchExport" xml:space="preserve"><value>Error during batch export: {0}</value></data>
+  <data name="Error.NoFiles" xml:space="preserve"><value>No files to export</value></data>
   
   <!-- MainWindowViewModel - Open File dialog -->
   <data name="Dialog.OpenFile.Title" xml:space="preserve"><value>Select NES ROM file</value></data>

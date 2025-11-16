@@ -17,6 +17,7 @@
   <data name="Menu.File" xml:space="preserve"><value>Файл</value></data>
   <data name="Menu.File.Open" xml:space="preserve"><value>Открыть...</value></data>
   <data name="Menu.File.CloseTab" xml:space="preserve"><value>Закрыть таб</value></data>
+  <data name="Menu.File.BatchExport" xml:space="preserve"><value>Массовый экспорт...</value></data>
   <data name="Menu.File.Exit" xml:space="preserve"><value>Выйти</value></data>
   <data name="Menu.Help" xml:space="preserve"><value>?</value></data>
   <data name="Menu.Help.About" xml:space="preserve"><value>О программе</value></data>
@@ -81,7 +82,12 @@
   <data name="Export.TileSheet.DialogTitle" xml:space="preserve"><value>Экспорт панно</value></data>
   <data name="Export.TileSheet.FileType" xml:space="preserve"><value>PNG изображение</value></data>
   <data name="Export.Tiles.DialogTitle" xml:space="preserve"><value>Выберите папку для экспорта тайлов</value></data>
+  <data name="Export.Batch.DialogTitle" xml:space="preserve"><value>Выберите папку для массового экспорта</value></data>
+  <data name="Export.Batch.Processing" xml:space="preserve"><value>Обработка {0} из {1}...</value></data>
+  <data name="Export.Batch.Success" xml:space="preserve"><value>Массовый экспорт успешно завершен</value></data>
   <data name="Error.Export" xml:space="preserve"><value>Ошибка при экспорте: {0}</value></data>
+  <data name="Error.BatchExport" xml:space="preserve"><value>Ошибка при массовом экспорте: {0}</value></data>
+  <data name="Error.NoFiles" xml:space="preserve"><value>Нет файлов для экспорта</value></data>
   
   <!-- MainWindowViewModel - Open File dialog -->
   <data name="Dialog.OpenFile.Title" xml:space="preserve"><value>Выберите NES ROM файл</value></data>

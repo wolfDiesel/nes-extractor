@@ -40,11 +40,8 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore NesExtractor.sln
 
-      - name: Build
-        run: dotnet build NesExtractor.sln -c Release --no-restore
-
       - name: Publish
-        run: dotnet publish src/NesExtractor/NesExtractor.csproj -c Release -p:PublishProfile=${{ matrix.profile }} --no-build
+        run: dotnet publish src/NesExtractor/NesExtractor.csproj -c Release -p:PublishProfile=${{ matrix.profile }} --no-restore
 
       - name: Archive Linux
         if: matrix.os == 'ubuntu-latest'

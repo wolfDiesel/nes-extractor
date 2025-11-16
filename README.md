@@ -1,74 +1,74 @@
 # NesExtractor
 
-Кроссплатформенная desktop утилита для анализа и извлечения данных из NES ROM файлов (дампов картриджей Nintendo Entertainment System).
+Cross-platform desktop utility for analyzing and extracting data from NES ROM files (Nintendo Entertainment System cartridge dumps).
 
-## Возможности
+## Features
 
-### Реализовано ✅
-- ✅ Открытие и анализ .NES файлов (формат iNES/NES 2.0)
-- ✅ Отображение характеристик картриджа:
-  - Размер файла
-  - PRG ROM (программный код)
-  - CHR ROM (графические данные)
-  - Номер и название маппера (NROM, MMC1, UxROM и др.)
-  - Тип mirroring (Horizontal/Vertical/FourScreen)
-  - Наличие Battery-backed RAM
-  - Наличие Trainer секции
-- ✅ Поддержка работы с несколькими файлами одновременно (система табов)
-- ✅ Файловый диалог с фильтрацией по .nes файлам
-- ✅ Обработка ошибок с UI уведомлениями
-- ✅ Горячие клавиши (Ctrl+O, Ctrl+W, Ctrl+Q)
-- ✅ Проверка на дубликаты открытых файлов
+### Implemented ✅
+- ✅ Open and analyze .NES files (iNES/NES 2.0 format)
+- ✅ Display cartridge information:
+  - File size
+  - PRG ROM (program code)
+  - CHR ROM (graphics data)
+  - Mapper number and name (NROM, MMC1, UxROM, etc.)
+  - Mirroring type (Horizontal/Vertical/FourScreen)
+  - Battery-backed RAM presence
+  - Trainer section presence
+- ✅ Support for multiple files simultaneously (tab system)
+- ✅ File dialog with .nes file filtering
+- ✅ Error handling with UI notifications
+- ✅ Hotkeys (Ctrl+O, Ctrl+W, Ctrl+Q)
+- ✅ Duplicate file detection
 
-- ✅ **Визуализация графики CHR ROM:**
-  - Извлечение и декодирование тайлов 8×8 пикселей
-  - Панно со всеми тайлами
-  - Зум (0.1x - 10x) и прокрутка
-  - Спейсинг между тайлами
-  - Экспорт панно в PNG
-  - Экспорт тайлов в отдельные файлы
-  - Greyscale палитра
+- ✅ **CHR ROM Graphics Visualization:**
+  - Extract and decode 8×8 pixel tiles
+  - Tile sheet with all tiles
+  - Zoom (0.1x - 10x) and scrolling
+  - Spacing between tiles
+  - Export tile sheet to PNG
+  - Export tiles to separate files
+  - Greyscale palette
 
-### В разработке 🚧
-- 🚧 Выбор цветовых палитр NES
-- 🚧 Редактирование палитр
-- 🚧 Выделение отдельных тайлов
+### In Development 🚧
+- 🚧 NES color palette selection
+- 🚧 Palette editing
+- 🚧 Individual tile selection
 
-## Технологии
+## Technologies
 
 - C# / .NET 8.0
 - Avalonia UI 11.x
-- Паттерн MVVM
+- MVVM pattern
 
-## Целевые платформы
+## Target Platforms
 
 - Linux (x64)
 - Windows (x64)
 
-## Сборка и запуск
+## Building and Running
 
-### Требования
+### Requirements
 
-- .NET 8.0 SDK или новее
-- Linux (x64) или Windows (x64)
+- .NET 8.0 SDK or newer
+- Linux (x64) or Windows (x64)
 
-### Быстрый старт
+### Quick Start
 
 ```bash
-# Клонируйте репозиторий (если еще не сделали)
+# Clone the repository (if not already done)
 cd /path/to/NesExtractor
 
-# Сборка
+# Build
 dotnet build
 
-# Запуск приложения
+# Run the application
 dotnet run --project src/NesExtractor/NesExtractor.csproj
 
-# Запуск тестов
+# Run tests
 dotnet test
 ```
 
-### Release сборка
+### Release Build
 
 ```bash
 # Linux
@@ -78,121 +78,97 @@ dotnet publish src/NesExtractor/NesExtractor.csproj -c Release -r linux-x64 --se
 dotnet publish src/NesExtractor/NesExtractor.csproj -c Release -r win-x64 --self-contained
 ```
 
-### Тестирование
-
-См. [TESTING.md](TESTING.md) для подробной информации о тестировании.
-
-## Документация
-
-Подробная документация находится в папке `TZ/`:
-- `01_Идея_процесс_требования.md` - описание проекта, требования, roadmap
-- `02_Технологии.md` - технический стек, архитектура
-- `03_Внешний_вид.md` - описание UI/UX
-
-## Структура проекта
+## Project Structure
 
 ```
 NesExtractor/
 ├── src/
-│   ├── NesExtractor/           # UI приложение (Avalonia)
+│   ├── NesExtractor/           # UI application (Avalonia)
 │   │   ├── ViewModels/         # ViewModels
 │   │   ├── Views/              # XAML views
-│   │   └── Assets/             # Ресурсы
-│   └── NesExtractor.Core/      # Библиотека работы с NES
+│   │   └── Assets/             # Resources
+│   └── NesExtractor.Core/      # NES processing library
 │       ├── Models/             # NesHeader, NesRom
 │       ├── Parsers/            # NesRomParser
-│       └── Services/           # Сервисы обработки
+│       └── Services/           # Processing services
 ├── tests/
-│   └── NesExtractor.Tests/     # Unit тесты (xUnit)
-├── TZ/                         # Техническая документация
-└── NesExtractor.sln            # Solution файл
+│   └── NesExtractor.Tests/     # Unit tests (xUnit)
+└── NesExtractor.sln            # Solution file
 ```
 
-## Возможности библиотеки NesExtractor.Core
+## NesExtractor.Core Library Features
 
-- ✅ Парсинг iNES 1.0 и NES 2.0 форматов
-- ✅ Чтение заголовка с полной информацией о картридже
-- ✅ Извлечение PRG ROM (программный код)
-- ✅ Извлечение CHR ROM (графические данные)
-- ✅ Поддержка Trainer секции
-- ✅ Определение типа маппера
-- ✅ Определение типа mirroring
-- ✅ Полностью покрыто модульными тестами (14 тестов)
+- ✅ iNES 1.0 and NES 2.0 format parsing
+- ✅ Header reading with full cartridge information
+- ✅ PRG ROM extraction (program code)
+- ✅ CHR ROM extraction (graphics data)
+- ✅ Trainer section support
+- ✅ Mapper type detection
+- ✅ Mirroring type detection
+- ✅ Fully covered by unit tests (87 tests)
 
-## Использование
+## Usage
 
-1. Запустите приложение
-2. Нажмите `Файл → Открыть...` (или Ctrl+O)
-3. Выберите один или несколько .nes файлов
-4. Просмотрите информацию о картридже в **левой панели (30%)**
-5. Просмотрите графику CHR ROM в **правой панели (70%)**
-6. **Выберите цветовую палитру** из выпадающего списка (8 вариантов)
-7. Используйте зум (+/−/100%) для масштабирования графики
-8. Экспортируйте панно или отдельные тайлы через кнопки снизу
-9. Используйте табы для переключения между файлами
-10. Закройте таб через Ctrl+W или меню
+1. Launch the application
+2. Click `File → Open...` (or Ctrl+O)
+3. Select one or more .nes files
+4. View cartridge information in the **left panel (30%)**
+5. View CHR ROM graphics in the **right panel (70%)**
+6. **Select color palette** from dropdown (10 options)
+7. Use zoom (+/−/100%) to scale graphics
+8. Export tile sheet or individual tiles via bottom buttons
+9. Use tabs to switch between files
+10. Close tab via Ctrl+W or menu
 
-## Горячие клавиши
+## Hotkeys
 
-- `Ctrl+O` - Открыть файл
-- `Ctrl+W` - Закрыть текущий таб
-- `Ctrl+Q` - Выйти из приложения
+- `Ctrl+O` - Open file
+- `Ctrl+W` - Close current tab
+- `Ctrl+Q` - Exit application
 
-## Работа с графикой
+## Working with Graphics
 
-### ⚠️ Важно понимать
-**Палитры НЕ хранятся в .NES файле!** CHR ROM содержит только индексы цветов (0-3), а палитры загружаются игрой во время выполнения. Поэтому по умолчанию используется **Greyscale** - честный способ показать содержимое ROM.
+### ⚠️ Important to Understand
+**Palettes are NOT stored in .NES files!** CHR ROM contains only color indices (0-3), and palettes are loaded by the game at runtime. Therefore, **Greyscale** is used by default - an honest way to show ROM contents.
 
-### Возможности
-- **Палитра**: По умолчанию **Greyscale** (честный способ). Опционально - 9 цветных палитр для визуализации
-- **Прозрачность**: Чекбокс для отображения индекса 0 как прозрачного (с шахматным фоном)
-- **Зум**: Кнопки +/− или колесико мыши (в разработке)
-- **Прокрутка**: Используйте скроллбары или колесико мыши
-- **Экспорт панно**: Сохраняет все тайлы в один PNG файл с выбранной палитрой
-- **Экспорт отдельно**: Создает папку с PNG файлами для каждого тайла
+### Features
+- **Palette**: Default **Greyscale** (honest approach). Optionally - 9 color palettes for visualization
+- **Transparency**: Checkbox to display index 0 as transparent (with checkerboard background)
+- **Zoom**: +/- buttons or mouse wheel (in development)
+- **Scrolling**: Use scrollbars or mouse wheel
+- **Export tile sheet**: Saves all tiles to a single PNG file with selected palette
+- **Export separately**: Creates a folder with PNG files for each tile
 
-### Доступные палитры
-1. **Greyscale** ✅ (по умолчанию, честный способ) - показывает индексы 0-3 как оттенки серого
-2. **Нейтральная** - серо-белая из палитры NES
-3. **Синяя** - оттенки синего
-4. **Красная** - оттенки красного
-5. **Зеленая** - оттенки зеленого
-6. **Желтая** - оттенки желтого
-7. **Фиолетовая** - оттенки фиолетового
-8. **Бирюзовая** - оттенки бирюзового
-9. **Оранжевая** - оттенки оранжевого
-10. **Радужная** - разноцветная
+### Available Palettes
+1. **Greyscale** ✅ (default, honest approach) - shows indices 0-3 as shades of gray
+2. **Neutral** - gray-white from NES palette
+3. **Blue** - blue shades
+4. **Red** - red shades
+5. **Green** - green shades
+6. **Yellow** - yellow shades
+7. **Purple** - purple shades
+8. **Cyan** - cyan shades
+9. **Orange** - orange shades
+10. **Rainbow** - multicolor
 
-## Документация
+## Development
 
-- [TZ/01_Идея_процесс_требования.md](TZ/01_Идея_процесс_требования.md) - описание проекта, требования, roadmap
-- [TZ/02_Технологии.md](TZ/02_Технологии.md) - технический стек, архитектура
-- [TZ/03_Внешний_вид.md](TZ/03_Внешний_вид.md) - описание UI/UX
-- [DESIGN.md](DESIGN.md) - **дизайн-система и стили** ⭐
-- [GRAPHICS.md](GRAPHICS.md) - **технические детали графики NES** 🎨
-- [CHANGELOG.md](CHANGELOG.md) - история изменений
-- [TESTING.md](TESTING.md) - информация о тестировании
-- [src/NesExtractor.Core/README.md](src/NesExtractor.Core/README.md) - документация библиотеки
+The project uses:
+- **Avalonia UI 11.x** for cross-platform UI
+- **Fluent Design System** with custom styles
+- **MVVM pattern** with CommunityToolkit.Mvvm
+- **SkiaSharp** for graphics processing
+- **xUnit** for unit testing
+- **C# 12** and **.NET 8.0**
 
-## Разработка
+### UI Features
+- ✨ Volumetric tabs with contrasting backgrounds and rounded corners
+- ✨ Modern design with smooth animations
+- 🎨 Adaptive theme (light/dark)
+- 🖱️ Interactive elements with hover effects
+- ⌨️ Full keyboard navigation support
+- 💡 Tooltips for all actions
 
-Проект использует:
-- **Avalonia UI 11.x** для кроссплатформенного UI
-- **Fluent Design System** с кастомными стилями
-- **MVVM паттерн** с CommunityToolkit.Mvvm
-- **SkiaSharp** для работы с графикой
-- **xUnit** для модульного тестирования
-- **C# 12** и **.NET 8.0**
-
-### Особенности UI
-- ✨ Объемные табы с контрастными фонами и скругленными углами
-- ✨ Современный дизайн с плавными анимациями
-- 🎨 Адаптивная тема (светлая/темная)
-- 🖱️ Интерактивные элементы с hover эффектами
-- ⌨️ Полная поддержка клавиатурной навигации
-- 💡 Тултипы для всех действий
-
-## Лицензия
+## License
 
 TBD
-

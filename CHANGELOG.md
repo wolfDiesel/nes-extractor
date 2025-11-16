@@ -1,94 +1,86 @@
 # Changelog
 
-Все важные изменения в проекте NesExtractor будут задокументированы в этом файле.
+All notable changes to the NesExtractor project will be documented in this file.
 
 ## [Unreleased]
 
 ### Added
-- Internationalization using .resx resources (default: English).
-- Localization markup `{l:Loc Key}` and `LocalizationManager`.
-- Localized main views (`MainWindow`, `FileTabView`) and graphics export dialogs.
-- Russian translation (`Strings.ru.resx`) added.
+- Internationalization using .resx resources (default: English)
+- Localization markup `{l:Loc Key}` and `LocalizationManager`
+- Localized main views (`MainWindow`, `FileTabView`) and graphics export dialogs
+- Russian translation (`Strings.ru.resx`) added
+- Language switching in Help menu (English/Russian)
+- About dialog with localized content
+- Comprehensive test coverage: 87 tests (was 14)
+  - NesTile tests (12 tests)
+  - ChrRomExtractor tests (12 tests)
+  - NesPalette tests (10 tests)
+  - Additional NesHeader tests (13 tests)
+  - Additional NesRom tests (7 tests)
+  - Additional NesRomParser tests (11 tests)
+- Release build profiles for Linux and Windows (single-file)
+- GitHub Actions workflow for automatic release builds
+- Code cleanup: removed Russian comments, replaced hex literals with binary constants
 
-### Добавлено
-- ✅ Библиотека NesExtractor.Core для работы с NES файлами
-- ✅ Модель NesHeader с полным разбором заголовка iNES/NES 2.0
-- ✅ Модель NesRom для представления ROM файла
-- ✅ Парсер NesRomParser для чтения и валидации NES файлов
-- ✅ 14 модульных тестов (100% покрытие парсера)
-- ✅ Файловый диалог для открытия .nes файлов
-- ✅ Система табов для работы с несколькими файлами
-- ✅ FileTabView с разделением 30:70 (информация + графика)
-- ✅ Панель информации о картридже (mapper, ROM размеры, mirroring и т.д.)
-- ✅ Обработка ошибок с UI уведомлениями
-- ✅ Горячие клавиши (Ctrl+O, Ctrl+W, Ctrl+Q)
-- ✅ Проверка на дубликаты открытых файлов
-- ✅ Empty state когда нет открытых файлов
+### Implemented
+- NES header reading (16 bytes)
+- PRG ROM extraction (program code)
+- CHR ROM extraction (graphics data)
+- Trainer section support (512 bytes)
+- Mapper type detection (NROM, MMC1, UxROM, etc.)
+- Mirroring type detection (Horizontal/Vertical/FourScreen)
+- iNES 1.0 and NES 2.0 format support
 
-### Реализовано
-- Чтение заголовка NES (16 байт)
-- Извлечение PRG ROM (программный код)
-- Извлечение CHR ROM (графические данные)
-- Поддержка Trainer секции (512 байт)
-- Определение типа маппера (NROM, MMC1, UxROM и др.)
-- Определение типа mirroring (Horizontal/Vertical/FourScreen)
-- Поддержка форматов iNES 1.0 и NES 2.0
+### Graphics Visualization
+- ✅ CHR ROM graphics visualization
+- ✅ Tile extraction and decoding (8×8 pixels, 2 bitplanes)
+- ✅ Tile sheet display
+- ✅ Zoom (0.1x - 10x) with +/-/100% buttons
+- ✅ Tile sheet scrolling (ScrollViewer)
+- ✅ Configurable spacing between tiles (0-4px)
+- ✅ Tile sheet export to PNG file
+- ✅ Export all tiles to separate files
+- ✅ Greyscale palette (4 shades)
+- ✅ Tile count information
+- ✅ Nearest neighbor interpolation (no blur)
 
-### Добавлено в последнем обновлении
+### Design Improvements
+- ✅ Custom tab styles (TabStyles.axaml)
+- ✅ Beautiful tab close button with hover effect
+- ✅ Accent color bottom border for active tab
+- ✅ Smooth transition animations (150ms)
+- ✅ Enhanced export buttons with hover effects
+- ✅ Styled zoom buttons
+- ✅ Updated Empty State with welcome message
+- ✅ Information panel with features
+- ✅ Tooltips for all interactive elements
+- ✅ Unified spacing and color system
+- ✅ System theme adaptation (light/dark)
+- ✅ Volumetric tabs with background and rounded corners
+- ✅ Contrasting bar under tabs
+- ✅ Active tab "protrudes" from panel (-1px margin)
+- ✅ Fixed panel stretching in FileTabView (30:70)
 
-**Визуализация графики:**
-- ✅ Визуализация графики из CHR ROM
-- ✅ Извлечение и декодирование тайлов (8×8 пикселей, 2 bitplanes)
-- ✅ Отображение панно с тайлами
-- ✅ Зум (0.1x - 10x) с кнопками +/−/100%
-- ✅ Прокрутка панно (ScrollViewer)
-- ✅ Настраиваемый спейсинг между тайлами (0-4px)
-- ✅ Экспорт панно в PNG файл
-- ✅ Экспорт всех тайлов в отдельные файлы
-- ✅ Greyscale палитра (4 оттенка)
-- ✅ Информация о количестве тайлов
-- ✅ Nearest neighbor интерполяция (без размытия)
+### Palettes and Transparency
+- ✅ Greyscale by default (honest way to show CHR ROM)
+- ✅ Standard NES palette (64 colors PPU 2C02)
+- ✅ 10 preset palettes for visualization
+- ✅ "Transparency" checkbox for index 0
+- ✅ Checkerboard background when transparency is enabled (like in Photoshop)
+- ✅ ComboBox for palette selection in UI
+- ✅ Automatic redraw on palette change
+- ✅ Export with selected palette and transparency settings
+- ⚠️ **Important**: Palettes are NOT stored in .NES files (like in YY-CHR)
 
-**Улучшения дизайна:**
-- ✅ Кастомные стили для табов (TabStyles.axaml)
-- ✅ Красивая кнопка закрытия таба с hover эффектом
-- ✅ Нижняя граница акцентного цвета для активного таба
-- ✅ Плавные анимации переходов (150ms)
-- ✅ Улучшенные кнопки экспорта с hover эффектами
-- ✅ Стилизованные кнопки зума
-- ✅ Обновленный Empty State с приветствием
-- ✅ Информационная панель с возможностями
-- ✅ Тултипы для всех интерактивных элементов
-- ✅ Единая система отступов и цветов
-- ✅ Адаптация к системной теме (светлая/темная)
-
-**Улучшения дизайна (обновление):**
-- ✅ Объемные табы с фоном и скругленными углами
-- ✅ Контрастная полоса под табами
-- ✅ Активный таб "выступает" из панели (-1px margin)
-- ✅ Фикс растягивания панелей в FileTabView (30:70)
-
-**Палитры и прозрачность (исправлено):**
-- ✅ Greyscale по умолчанию (честный способ показать CHR ROM)
-- ✅ Стандартная палитра NES (64 цвета PPU 2C02)
-- ✅ 10 предустановленных палитр для визуализации
-- ✅ Чекбокс "Прозрачность" для индекса 0
-- ✅ Шахматный фон при включенной прозрачности (как в Photoshop)
-- ✅ ComboBox для выбора палитры в UI
-- ✅ Автоматическая перерисовка при смене палитры
-- ✅ Экспорт с выбранной палитрой и настройками прозрачности
-- ⚠️ **Важно**: Палитры НЕ хранятся в .NES файле (как в YY-CHR)
-
-### В разработке
-- Редактирование палитр
-- Выделение отдельных тайлов
-- Колесико мыши для зума
+### In Development
+- Palette editing
+- Individual tile selection
+- Mouse wheel zoom
 
 ## [0.1.0] - 2025-11-16
 
-### Первый релиз
-- Инициализация проекта
-- Базовая структура Avalonia приложения
-- Настройка решения (src/, tests/)
-- Создание документации (TZ/)
-
+### Initial Release
+- Project initialization
+- Basic Avalonia application structure
+- Solution setup (src/, tests/)
+- Documentation creation (TZ/)

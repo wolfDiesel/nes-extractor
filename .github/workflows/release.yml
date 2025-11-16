@@ -162,17 +162,19 @@ jobs:
           python3 -c "from PIL import Image; img = Image.new('RGB', (256, 256), '#1E88E5'); img.save('$APP_DIR/NesExtractor.png')" || \
           echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" | base64 -d > "$APP_DIR/NesExtractor.png"
 
-      - name: Build AppImage using Docker
+      - name: Build AppImage
         run: |
-          docker run --rm -v "${{ github.workspace }}":/workspace -w /workspace \
-            -e ARCH=x86_64 \
-            -e VERSION=${{ github.ref_name }} \
-            ubuntu:22.04 bash -c "
-            apt-get update && apt-get install -y wget fuse libfuse2 && \
-            wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool && \
-            chmod +x /tmp/appimagetool && \
-            /tmp/appimagetool NesExtractor.AppDir NesExtractor-x86_64.AppImage
-            "
+          # Download and extract appimagetool
+          wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool.AppImage
+          chmod +x appimagetool.AppImage
+          ./appimagetool.AppImage --appimage-extract
+          
+          # Build AppImage using extracted tool (no FUSE needed)
+          ARCH=x86_64 VERSION=${{ github.ref_name }} ./squashfs-root/AppRun NesExtractor.AppDir NesExtractor-x86_64.AppImage
+          chmod +x NesExtractor-x86_64.AppImage
+          
+          # Cleanup
+          rm -rf squashfs-root appimagetool.AppImage
 
       - name: Upload AppImage artifact
         uses: actions/upload-artifact@v4

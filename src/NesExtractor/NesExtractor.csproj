@@ -8,6 +8,7 @@
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
     <PublishTrimmed>false</PublishTrimmed>
+    <Version>0.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

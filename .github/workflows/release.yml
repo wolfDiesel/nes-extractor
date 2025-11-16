@@ -40,6 +40,12 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore NesExtractor.sln
 
+      - name: Build
+        run: dotnet build NesExtractor.sln -c Release --no-restore
+
+      - name: Run tests
+        run: dotnet test NesExtractor.sln -c Release --no-build --verbosity normal
+
       - name: Publish
         run: dotnet publish src/NesExtractor/NesExtractor.csproj -c Release -p:PublishProfile=${{ matrix.profile }} --no-restore
 

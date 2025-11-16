@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=NesExtractor
+Comment=Utility for analyzing and extracting data from NES ROM files
+Exec=NesExtractor
+Icon=NesExtractor
+Categories=Utility;Development;
+Terminal=false
+StartupNotify=true
+

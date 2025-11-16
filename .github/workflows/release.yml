@@ -103,23 +103,35 @@ jobs:
           retention-days: 90
 
   build-appimage:
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download Linux artifact
-        uses: actions/download-artifact@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          name: NesExtractor-linux-x64
-          path: artifacts/
+          dotnet-version: '8.0.x'
 
-      - name: Extract Linux executable
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore dependencies
+        run: dotnet restore NesExtractor.sln
+
+      - name: Publish Linux
+        run: dotnet publish src/NesExtractor/NesExtractor.csproj -c Release -p:PublishProfile=Properties/PublishProfiles/Linux-x64.pubxml --no-restore
+
+      - name: Prepare executable
         run: |
-          cd artifacts
-          tar -xzf NesExtractor-linux-x64.tar.gz
-          mv NesExtractor ../NesExtractor
+          cp src/NesExtractor/bin/Release/net8.0/publish/linux-x64/NesExtractor ./NesExtractor
+          chmod +x ./NesExtractor
 
       - name: Install Python dependencies
         run: |

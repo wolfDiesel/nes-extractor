@@ -69,54 +69,8 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore NesExtractor.sln
 
-      - name: Install Python dependencies for AppImage
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-pil || pip3 install Pillow
-
       - name: Publish
         run: dotnet publish src/NesExtractor/NesExtractor.csproj -c Release -p:PublishProfile=${{ matrix.profile }} --no-restore
-
-      - name: Create AppImage
-        if: matrix.os == 'ubuntu-latest'
-        working-directory: ${{ github.workspace }}
-        run: |
-          # Download appimagetool
-          wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
-          chmod +x appimagetool
-          
-          # Create AppDir structure
-          APP_DIR="NesExtractor.AppDir"
-          mkdir -p "$APP_DIR/usr/bin"
-          mkdir -p "$APP_DIR/usr/share/applications"
-          mkdir -p "$APP_DIR/usr/share/icons/hicolor/256x256/apps"
-          
-          # Copy executable
-          cp src/NesExtractor/bin/Release/net8.0/publish/${{ matrix.rid }}/NesExtractor "$APP_DIR/usr/bin/"
-          chmod +x "$APP_DIR/usr/bin/NesExtractor"
-          
-          # Copy desktop file
-          cp packaging/NesExtractor.desktop "$APP_DIR/"
-          cp packaging/NesExtractor.desktop "$APP_DIR/usr/share/applications/"
-          
-          # Create AppRun
-          cp packaging/AppRun.sh "$APP_DIR/AppRun"
-          chmod +x "$APP_DIR/AppRun"
-          
-          # Create a simple icon using Python (available in GitHub Actions)
-          python3 -c "import sys; from PIL import Image, ImageDraw; import os; APP_DIR = sys.argv[1]; img = Image.new('RGB', (256, 256), color='#1E88E5'); draw = ImageDraw.Draw(img); draw.rectangle([40, 60, 216, 200], fill='#E53935', outline='#B71C1C', width=3); draw.rectangle([50, 70, 206, 120], fill='#FFC107', outline='#F57C00', width=2); draw.rectangle([50, 130, 206, 190], fill='#1976D2', outline='#0D47A1', width=2); img.save(f'{APP_DIR}/NesExtractor.png'); os.makedirs(f'{APP_DIR}/usr/share/icons/hicolor/256x256/apps', exist_ok=True); img.save(f'{APP_DIR}/usr/share/icons/hicolor/256x256/apps/NesExtractor.png')" "$APP_DIR"
-          # Fallback if PIL is not available - create minimal icon
-          if [ ! -f "$APP_DIR/NesExtractor.png" ]; then
-            # Create a simple colored square as fallback
-            python3 -c "from PIL import Image; img = Image.new('RGB', (256, 256), '#1E88E5'); img.save('$APP_DIR/NesExtractor.png')" || \
-            echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" | base64 -d > "$APP_DIR/NesExtractor.png"
-            cp "$APP_DIR/NesExtractor.png" "$APP_DIR/usr/share/icons/hicolor/256x256/apps/" 2>/dev/null || true
-          fi
-          
-          # Build AppImage
-          ARCH=x86_64 VERSION=${{ github.ref_name }} ./appimagetool "$APP_DIR" "${{ github.workspace }}/NesExtractor-x86_64.AppImage"
-          chmod +x "${{ github.workspace }}/NesExtractor-x86_64.AppImage"
 
       - name: Archive Linux
         if: matrix.os == 'ubuntu-latest'
@@ -140,14 +94,6 @@ jobs:
           path: ${{ github.workspace }}/${{ matrix.artifact-name }}.tar.gz
           retention-days: 90
 
-      - name: Upload AppImage artifact
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: NesExtractor-AppImage
-          path: ${{ github.workspace }}/NesExtractor-x86_64.AppImage
-          retention-days: 90
-
       - name: Upload Windows artifact
         if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v4
@@ -156,8 +102,75 @@ jobs:
           path: ${{ github.workspace }}/${{ matrix.artifact-name }}.zip
           retention-days: 90
 
-  create-release:
+  build-appimage:
     needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: NesExtractor-linux-x64
+          path: artifacts/
+
+      - name: Extract Linux executable
+        run: |
+          cd artifacts
+          tar -xzf NesExtractor-linux-x64.tar.gz
+          mv NesExtractor ../NesExtractor
+
+      - name: Install Python dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pil || pip3 install Pillow
+
+      - name: Create AppDir structure
+        run: |
+          APP_DIR="NesExtractor.AppDir"
+          mkdir -p "$APP_DIR/usr/bin"
+          mkdir -p "$APP_DIR/usr/share/applications"
+          mkdir -p "$APP_DIR/usr/share/icons/hicolor/256x256/apps"
+          
+          # Copy executable
+          cp NesExtractor "$APP_DIR/usr/bin/"
+          chmod +x "$APP_DIR/usr/bin/NesExtractor"
+          
+          # Copy desktop file
+          cp packaging/NesExtractor.desktop "$APP_DIR/"
+          cp packaging/NesExtractor.desktop "$APP_DIR/usr/share/applications/"
+          
+          # Create AppRun
+          cp packaging/AppRun.sh "$APP_DIR/AppRun"
+          chmod +x "$APP_DIR/AppRun"
+          
+          # Create icon
+          python3 -c "import sys; from PIL import Image, ImageDraw; import os; APP_DIR = sys.argv[1]; img = Image.new('RGB', (256, 256), color='#1E88E5'); draw = ImageDraw.Draw(img); draw.rectangle([40, 60, 216, 200], fill='#E53935', outline='#B71C1C', width=3); draw.rectangle([50, 70, 206, 120], fill='#FFC107', outline='#F57C00', width=2); draw.rectangle([50, 130, 206, 190], fill='#1976D2', outline='#0D47A1', width=2); img.save(f'{APP_DIR}/NesExtractor.png'); os.makedirs(f'{APP_DIR}/usr/share/icons/hicolor/256x256/apps', exist_ok=True); img.save(f'{APP_DIR}/usr/share/icons/hicolor/256x256/apps/NesExtractor.png')" "$APP_DIR" || \
+          python3 -c "from PIL import Image; img = Image.new('RGB', (256, 256), '#1E88E5'); img.save('$APP_DIR/NesExtractor.png')" || \
+          echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" | base64 -d > "$APP_DIR/NesExtractor.png"
+
+      - name: Build AppImage using Docker
+        run: |
+          docker run --rm -v "${{ github.workspace }}":/workspace -w /workspace \
+            -e ARCH=x86_64 \
+            -e VERSION=${{ github.ref_name }} \
+            ubuntu:22.04 bash -c "
+            apt-get update && apt-get install -y wget fuse libfuse2 && \
+            wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool && \
+            chmod +x /tmp/appimagetool && \
+            /tmp/appimagetool NesExtractor.AppDir NesExtractor-x86_64.AppImage
+            "
+
+      - name: Upload AppImage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NesExtractor-AppImage
+          path: NesExtractor-x86_64.AppImage
+          retention-days: 90
+
+  create-release:
+    needs: [build, build-appimage]
     runs-on: ubuntu-latest
     permissions:
       contents: write

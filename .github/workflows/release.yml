@@ -105,25 +105,7 @@ jobs:
           chmod +x "$APP_DIR/AppRun"
           
           # Create a simple icon using Python (available in GitHub Actions)
-          python3 << EOF
-from PIL import Image, ImageDraw, ImageFont
-import os
-
-APP_DIR = "$APP_DIR"
-img = Image.new('RGB', (256, 256), color='#1E88E5')
-draw = ImageDraw.Draw(img)
-
-# Draw a simple NES cartridge icon
-# Draw cartridge shape
-draw.rectangle([40, 60, 216, 200], fill='#E53935', outline='#B71C1C', width=3)
-draw.rectangle([50, 70, 206, 120], fill='#FFC107', outline='#F57C00', width=2)
-draw.rectangle([50, 130, 206, 190], fill='#1976D2', outline='#0D47A1', width=2)
-
-# Save icon
-img.save(f'{APP_DIR}/NesExtractor.png')
-os.makedirs(f'{APP_DIR}/usr/share/icons/hicolor/256x256/apps', exist_ok=True)
-img.save(f'{APP_DIR}/usr/share/icons/hicolor/256x256/apps/NesExtractor.png')
-EOF
+          python3 -c "import sys; from PIL import Image, ImageDraw; import os; APP_DIR = sys.argv[1]; img = Image.new('RGB', (256, 256), color='#1E88E5'); draw = ImageDraw.Draw(img); draw.rectangle([40, 60, 216, 200], fill='#E53935', outline='#B71C1C', width=3); draw.rectangle([50, 70, 206, 120], fill='#FFC107', outline='#F57C00', width=2); draw.rectangle([50, 130, 206, 190], fill='#1976D2', outline='#0D47A1', width=2); img.save(f'{APP_DIR}/NesExtractor.png'); os.makedirs(f'{APP_DIR}/usr/share/icons/hicolor/256x256/apps', exist_ok=True); img.save(f'{APP_DIR}/usr/share/icons/hicolor/256x256/apps/NesExtractor.png')" "$APP_DIR"
           # Fallback if PIL is not available - create minimal icon
           if [ ! -f "$APP_DIR/NesExtractor.png" ]; then
             # Create a simple colored square as fallback

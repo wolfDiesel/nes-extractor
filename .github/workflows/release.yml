@@ -51,24 +51,24 @@ jobs:
 
       - name: Archive Linux
         if: matrix.os == 'ubuntu-latest'
+        working-directory: ${{ github.workspace }}
         run: |
           cd src/NesExtractor/bin/Release/net8.0/publish/${{ matrix.rid }}
-          tar -czf ../../../../../../${{ matrix.artifact-name }}.tar.gz NesExtractor
-          cd ../../../../../../
+          tar -czf ${{ github.workspace }}/${{ matrix.artifact-name }}.tar.gz NesExtractor
 
       - name: Archive Windows
         if: matrix.os == 'windows-latest'
+        working-directory: ${{ github.workspace }}
         run: |
           cd src/NesExtractor/bin/Release/net8.0/publish/${{ matrix.rid }}
-          Compress-Archive -Path * -DestinationPath ../../../../../../${{ matrix.artifact-name }}.zip -Force
-          cd ../../../../../../
+          Compress-Archive -Path * -DestinationPath ${{ github.workspace }}/${{ matrix.artifact-name }}.zip -Force
 
       - name: Upload Linux artifact
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact-name }}
-          path: ${{ matrix.artifact-name }}.tar.gz
+          path: ${{ github.workspace }}/${{ matrix.artifact-name }}.tar.gz
           retention-days: 90
 
       - name: Upload Windows artifact
@@ -76,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact-name }}
-          path: ${{ matrix.artifact-name }}.zip
+          path: ${{ github.workspace }}/${{ matrix.artifact-name }}.zip
           retention-days: 90
 
   create-release:

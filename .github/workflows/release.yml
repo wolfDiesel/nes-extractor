@@ -6,7 +6,36 @@ on:
       - 'v*'
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore dependencies
+        run: dotnet restore NesExtractor.sln
+
+      - name: Build
+        run: dotnet build NesExtractor.sln -c Release --no-restore
+
+      - name: Run tests
+        run: dotnet test NesExtractor.sln -c Release --no-build --verbosity normal
+
   build:
+    needs: test
     strategy:
       matrix:
         include:
@@ -39,12 +68,6 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore NesExtractor.sln
-
-      - name: Build
-        run: dotnet build NesExtractor.sln -c Release --no-restore
-
-      - name: Run tests
-        run: dotnet test NesExtractor.sln -c Release --no-build --verbosity normal
 
       - name: Publish
         run: dotnet publish src/NesExtractor/NesExtractor.csproj -c Release -p:PublishProfile=${{ matrix.profile }} --no-restore
